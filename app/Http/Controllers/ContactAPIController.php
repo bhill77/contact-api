@@ -15,7 +15,7 @@ class ContactAPIController extends Controller
      */
     public function index()
     {
-        //
+        return Contact::all();
     }
 
     /**
@@ -37,9 +37,11 @@ class ContactAPIController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreContactRequest $request, $id)
     {
-        //
+        $contact = Contact::find($id);
+        $contact->update($request->only('name', 'email', 'phone'));
+        return ['success'=>true];
     }
 
     /**
@@ -50,6 +52,7 @@ class ContactAPIController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contact::whereId($id)->delete();
+        return ['success' => true];
     }
 }
